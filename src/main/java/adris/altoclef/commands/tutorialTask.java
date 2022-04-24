@@ -7,7 +7,7 @@ import adris.altoclef.commandsystem.CommandException;
 
 public class tutorialTask extends Command {
     public tutorialTask() {
-        super("example", "wtf");
+        super("tutorialTask", "misc");
     }
 
     @Override
