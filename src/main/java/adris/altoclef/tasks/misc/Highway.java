@@ -9,22 +9,34 @@ import adris.altoclef.trackers.storage.ItemStorageTracker;
 import adris.altoclef.util.helpers.BaritoneHelper;
 import adris.altoclef.util.helpers.ItemHelper;
 import adris.altoclef.util.helpers.StorageHelper;
+import adris.altoclef.util.helpers.WorldHelper;
 import baritone.Baritone;
+import net.minecraft.client.render.DimensionEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import adris.altoclef.tasks.misc.EquipArmorTask;
 
 public class Highway extends Task {
 
+
+    int NeededDiamonds = 41;
+    boolean hasArmor = false;
     @Override
     protected void onStart(AltoClef mod) {
-        Debug.logMessage("Test!!");
+        Debug.logMessage("Task made by BloodyNoah3#2794 discord.gg/meg");
     }
 private Task _armorTask;
     @Override
     protected Task onTick(AltoClef mod) {
-        int NeededDiamonds = 41;
-        boolean hasArmor = false;
+        double xCoord = mod.getPlayer().getX();
+        double zCoord = mod.getPlayer().getX();
+        String Dimension = String.valueOf(WorldHelper.getCurrentDimension());
+        Debug.logMessage(Dimension);
+        if (xCoord < 50_000 || zCoord < 50_000 && Dimension != "NETHER") {
+            if(!mod.getItemStorage().hasItem(Items.DIAMOND_CHESTPLATE, Items.DIAMOND_HELMET, Items.DIAMOND_BOOTS, Items.DIAMOND_LEGGINGS) && !StorageHelper.isArmorEquippedAll(mod, ItemHelper.DIAMOND_ARMORS)) {
+                Debug.logMessage("Im within 50k of spawn");
+            }
+        }
         if (!StorageHelper.isArmorEquippedAll(mod, ItemHelper.DIAMOND_ARMORS)) {
             _armorTask = new EquipArmorTask(ItemHelper.DIAMOND_ARMORS);
             return _armorTask;
