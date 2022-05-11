@@ -3,9 +3,11 @@ package adris.altoclef.tasks.misc;
 import adris.altoclef.AltoClef;
 import adris.altoclef.Debug;
 import adris.altoclef.TaskCatalogue;
+import adris.altoclef.tasks.movement.DefaultGoToDimensionTask;
 import adris.altoclef.tasks.resources.CollectFoodTask;
 import adris.altoclef.tasksystem.Task;
 import adris.altoclef.trackers.storage.ItemStorageTracker;
+import adris.altoclef.util.Dimension;
 import adris.altoclef.util.helpers.BaritoneHelper;
 import adris.altoclef.util.helpers.ItemHelper;
 import adris.altoclef.util.helpers.StorageHelper;
@@ -26,15 +28,20 @@ public class Highway extends Task {
         Debug.logMessage("Task made by BloodyNoah3#2794 discord.gg/meg");
     }
 private Task _armorTask;
+private final Task _goToNetherTask = new DefaultGoToDimensionTask(Dimension.NETHER);
     @Override
     protected Task onTick(AltoClef mod) {
         double xCoord = mod.getPlayer().getX();
         double zCoord = mod.getPlayer().getX();
         String Dimension = String.valueOf(WorldHelper.getCurrentDimension());
-        Debug.logMessage(Dimension);
         if (xCoord < 50_000 || zCoord < 50_000 && Dimension != "NETHER") {
             if(!mod.getItemStorage().hasItem(Items.DIAMOND_CHESTPLATE, Items.DIAMOND_HELMET, Items.DIAMOND_BOOTS, Items.DIAMOND_LEGGINGS) && !StorageHelper.isArmorEquippedAll(mod, ItemHelper.DIAMOND_ARMORS)) {
-                Debug.logMessage("Im within 50k of spawn");
+                return _goToNetherTask;
+            }
+        }
+        if (xCoord < 50_000 || zCoord < 50_000 && Dimension == "NETHER") {
+            if(!mod.getItemStorage().hasItem(Items.DIAMOND_CHESTPLATE, Items.DIAMOND_HELMET, Items.DIAMOND_BOOTS, Items.DIAMOND_LEGGINGS) && !StorageHelper.isArmorEquippedAll(mod, ItemHelper.DIAMOND_ARMORS)) {
+
             }
         }
         if (!StorageHelper.isArmorEquippedAll(mod, ItemHelper.DIAMOND_ARMORS)) {
